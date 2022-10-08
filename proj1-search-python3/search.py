@@ -137,13 +137,13 @@ def uniformCostSearch(problem):
     import copy
     # PriorityQueue: always pop lowest item from all the nodes
     fringe = util.PriorityQueue()
-    # fringe = (state, path)
-    start = (problem.getStartState(), list())
+    # fringe = (state, path, priority)
+    start = (problem.getStartState(), list(), 0)
     closed = set()
     # item = fringe, priority
     fringe.push(start, 0)
     while fringe.isEmpty() is not True:
-        state, path = fringe.pop()
+        state, path, priority = fringe.pop()
         if problem.isGoalState(state):
             return path
         if state not in closed:
@@ -153,7 +153,8 @@ def uniformCostSearch(problem):
             for adjacency in adjacencys:
                 copy_path = copy.deepcopy(path)
                 copy_path.append(adjacency[1])
-                fringe.push((adjacency[0], copy_path), adjacency[2])
+                fringe.push((adjacency[0], copy_path, priority + adjacency[2]),
+                            priority + adjacency[2])
 
 
 def nullHeuristic(state, problem=None):
@@ -176,7 +177,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     # item = fringe, priority
     fringe.push(start, 0)
     while fringe.isEmpty() is not True:
-        state, path, cost_from_start = fringe.pop()
+        state, path, priority = fringe.pop()
         if problem.isGoalState(state):
             return path
         if state not in closed:
@@ -188,8 +189,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 copy_path.append(adjacency[1])
                 # priority = g() + h(); g() = cost from start, h() = heuristic
                 fringe.push(
-                    (adjacency[0], copy_path, cost_from_start + adjacency[2]),
-                    cost_from_start + heuristic(adjacency[0], problem))
+                    (adjacency[0], copy_path, priority + adjacency[2]),
+                    priority + adjacency[2] + heuristic(adjacency[0], problem))
 
 
 # Abbreviations

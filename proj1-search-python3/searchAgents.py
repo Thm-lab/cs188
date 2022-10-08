@@ -555,7 +555,7 @@ def foodHeuristic(state, problem):
                     mazeDistance((j, i), position,
                                  mazeState(state, problem.walls)))
     return heuristic_value
-    # expended nodes: 4137; if use manhattanDistance/euclideanDistance, then it will be  9551/10352
+    # expended nodes: 4137; if using manhattanDistance/euclideanDistance, then it will be  9551/10352
 
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -590,13 +590,10 @@ class ClosestDotSearchAgent(SearchAgent):
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState)
         "*** YOUR CODE HERE ***"
-        cost = 999999
         for i in range(food.width):
             for j in range(food.height):
                 if food[i][j]:
                     path = search.bfs(problem)
-                    if len(path) < cost:
-                        cost = len(path)
         return path
 
 
